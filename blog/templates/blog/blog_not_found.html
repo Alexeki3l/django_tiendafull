@@ -1,0 +1,33 @@
+{% extends 'InicioTiendaFull/base_landing.html' %}
+{% load static %}
+{% block content %}
+
+  <section class="py-3">
+    <!-- Start Content-->
+    <div class="container-fluid py-5">
+                        
+      <!-- start page title -->
+          
+      <!-- end page title --> 
+
+      <div class="row justify-content-center">
+          <div class="col-lg-4">
+              <div class="text-center">
+                  <img src="{% static 'InicioTiendaFull/assets_2/images/file-searching.svg' %}" height="220" alt="File not found Image">
+
+                  <h1 class="text-error mt-4">404</h1>
+                  <h4 class="text-uppercase text-danger mt-3">Pagina No Encontrada</h4>
+                  <p class="text-muted mt-3">Parece que te has equivocado de camino. No te preocupes...
+                      nos pasa a los mejores. Aquí tienes un
+                      pequeño consejo que puede ayudarte a retomar el camino.</p>
+
+                  <a class="btn btn-info mt-3" href="{% url 'Home' %}"><i class="mdi mdi-reply"></i> Retornar a Home</a>
+              </div> <!-- end /.text-center-->
+          </div> <!-- end col-->
+      </div>
+      <!-- end row -->
+      
+    </div> <!-- container -->
+  </section>
+
+{% endblock  %}

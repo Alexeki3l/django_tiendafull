@@ -1,0 +1,86 @@
+<div class="table-responsive" >
+    <table id ="tabla_carrito" class="table table-borderless table-centered mb-0">
+        <thead class="table-light">
+            <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+                <th style="width: 100px;">Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+          
+            {% if carrito %}
+                {% for producto in carrito.productos.all %}
+                    <tr>
+                        <td>
+                            <img src="{{producto.producto.image.url}}" class="rounded me-3" height="64">
+                            <p class="m-0 d-inline-block align-middle font-16">
+                                <a href="apps-ecommerce-products-details.html" class="text-body">{{producto.producto.nombre}}</a>
+                                <br>
+                                <small class="me-2"><b>Size:</b> Large </small>
+                                <small><b>Color:</b> Light Green
+                                </small>
+                            </p>
+                        </td>
+                        <td>
+                            <strong>$</strong>{{producto.producto.precio}}
+                        </td>
+                        <td>
+                            <a href="{% url 'carro:restar' producto.producto.id %}" class="btn btn-sm btn-success">-</a><tb/>
+                            {{producto.cantidad}}
+                            <!--<input type="number" min="0" value="{{producto.cantidad}}" class="form-control" name="cantidad" id="cantidad" placeholder="Qty" style="width: 90px;">-->
+
+                            <a href="{% url 'carro:agregar' producto.producto.id %}" class="btn btn-sm btn-success">+</a>
+                        </td>
+                        <td>
+                            
+                            <strong>$</strong>{{producto.total}}
+                        </td>
+                        <td>
+                            <a href="{% url 'detalle_producto' producto.producto.pk %}" class="action-icon"> <i class="mdi mdi-eye"></i></a>
+                            <a href="{% url 'carro:eliminar' producto.producto.id %}" class="action-icon text-danger"> <i class="mdi mdi-delete"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                
+                <tr>
+                
+                    <td>
+                        <p class="m-0 d-inline-block align-middle font-16">
+                            <a class="text-body"><strong><h4>Total</h4></strong></a>
+                        </p>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        <strong><h4>${{totall}}</h4></strong>
+                    </td>
+                    <td>
+                        <a href="#" class="action-icon text-danger" data-bs-toggle="modal" data-bs-target="#exampleModal"> <i class="mdi mdi-delete"></i></a>
+                        
+                    </td>
+                </tr>
+        {% else %}
+                <td colspan="5">
+                    <div class="alert alert-danger text-center">
+                        Sin productos
+                    </div>
+    
+                </td>
+        {% endif %} 
+            
+                
+            
+            
+                
+            
+           
+        </tbody>
+    </table>
+    
+</div>
+

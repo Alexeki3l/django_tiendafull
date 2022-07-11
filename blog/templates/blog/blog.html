@@ -1,0 +1,76 @@
+{% extends 'InicioTiendaFull/base_landing.html' %}
+{% load static %}
+{% block content %}
+
+  <section class="py-3">
+    <div class="container">
+      <h1 class="display-4 text-center">Blogs</h1>
+      <div class="row mb-2">
+        {% if posts.count > 0 %}
+          {% for post in posts %}
+            {% if post.estado %}
+              {% if post.approved_post %}
+                <div class="col-md-6">
+                  <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-2 d-flex flex-column position-static">
+                      {% for categoria in post.categorias.all %}
+                        <strong class="d-inline-block mb-2 text-success">{{categoria.nombre}}</strong>
+                      {% endfor %}
+                      <h5 class="mb-0">Autor:{{post.autor}}</h5>
+                      <h3 class="mb-0">{{post.titulo}}</h3>
+                      <div class="mb-2 text-muted">{{post.created}}</div>
+                      <p class="card-text mb-auto">{{post.contenido|slice:"100"}}</p>
+
+                      <div class="my-0 mx-0 text-top">
+                        {% if user in post.likes.all %}
+                          <a href="#" class="btn btn-sm btn-link text-muted mx-1" ><i class='mdi mdi-heart text-danger'></i> {{post.likes.count}} Likes</a>
+                        {% else %}
+                          <a href="#" class="btn btn-sm btn-link text-muted"><i class='uil uil-heart-alt '></i> {{post.likes.count}} Likes</a>
+                        {% endif %}
+                      </div>
+
+                      <a href="{% url 'blog_full' post.id %}" class="stretched-link">Continuar leyendo</a>
+                    </div>
+                    
+                      <div class="col-auto d-none d-lg-block py-1 px-1">
+                        <img src="{{ post.image_url|default_if_none:'#' }}" width="250" height="250">
+                      </div>
+                    
+                  </div>
+                </div>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <div class="text-center">
+            <h4 class="text-uppercase text-danger mt-3">Seccion vacia</h4>
+            <img src="{% static 'InicioTiendaFull/assets_2/images/file-searching.svg' %}" height="220" alt="File not found Image">
+
+            
+            <h4 class="text-muted mt-3">Lo sentimos en estos momentos no tenemos ningun post que mostrarle.
+              Si usted tiene algo interesante que compartirnos, sea el primero en escribir.
+            </h4><h4 class="text-danger"> No olvide registrarse si no pertenece a la comunidad.</h4>
+
+          </div>
+        {% endif %}
+        
+        {% comment %} <div class="col-md-6">
+          <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="col p-4 d-flex flex-column position-static">
+              <strong class="d-inline-block mb-2 text-success">Design</strong>
+              <h3 class="mb-0">Post title</h3>
+              <div class="mb-1 text-muted">Nov 11</div>
+              <p class="mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+              <a href="#" class="stretched-link">Continue reading</a>
+            </div>
+            <div class="col-auto d-none d-lg-block">
+              <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+      
+            </div>
+          </div>
+        </div> {% endcomment %}
+      </div>
+    </div>
+  </section>
+
+{% endblock  %}

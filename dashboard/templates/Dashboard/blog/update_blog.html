@@ -1,0 +1,38 @@
+{% extends 'Dashboard/base_dash.html' %}
+{% load static %}
+{% block content %}
+    <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'blog_dash' %}">Blogs</a></li>
+                            <li class="breadcrumb-item active">Update Blog</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">Update Blog</h4>
+                </div>
+            </div>
+        </div>  
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">   
+        <!-- end page title --> 
+                        <form action="{% url 'update_post' post.pk %}" enctype="multipart/form-data" method= "POST">
+                            {% csrf_token %}
+                            {{form.as_p}} 
+                          
+                            <div class="my-3">
+                                <button class="btn btn-success">Editar</button>
+                            </div>  
+                             
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,208 @@
+{% extends 'Dashboard/base_dash.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="container-fluid">
+                            
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'productos_dash' %}">Mis Productos</a></li>
+                            <li class="breadcrumb-item active">Detalles del Producto</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">Detalles del Producto</h4>
+                </div>
+            </div>
+        </div>     
+        <!-- end page title --> 
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <!-- Product image -->
+                                <a href="javascript: void(0);" class="text-center d-block mb-4">
+                                    <img src="{{producto.image.url}}" class="img-fluid" style="max-width: 480px;" alt="Product-img">
+                                </a>
+
+                                <div class="d-lg-flex d-none justify-content-center">
+                                    <a href="javascript: void(0);">
+                                        <img src="{{producto.image.url}}" class="img-fluid img-thumbnail p-2" style="max-width: 150px; max-height: 100px;" alt="Product-img">
+                                    </a>
+                                    <a href="javascript: void(0);" class="ms-2">
+                                        <img src="{{producto.image1.url}}" class="img-fluid img-thumbnail p-2" style="max-width: 150px; max-height: 100px;" alt="Product-img">
+                                    </a>
+                                    <a href="javascript: void(0);" class="ms-2">
+                                        <img src="{{producto.image2.url}}" class="img-fluid img-thumbnail p-2" style="max-width: 150px; max-height: 100px;" alt="Product-img">
+                                    </a>
+                                </div>
+                            </div> <!-- end col -->
+                            <div class="col-lg-7">
+                                <form class="ps-lg-4">
+                                    <!-- Product title -->
+                                    <h3 class="mt-0">{{producto.nombre}} (Orange) 
+                                        <a href="{% url 'update_producto' producto.pk %}" class="text-muted">
+                                            <i class="mdi mdi-square-edit-outline ms-2"></i></a> 
+                                            <a href="{% url 'delete_producto' producto.pk %}" class="text-danger"> 
+                                                <i class="mdi mdi-delete"></i></a>
+                                        </h3>
+                                    <p class="mb-1">Added Date: {{producto.created.day}}/{{producto.created.month}}/{{producto.created.year}}</p>
+                                    <p class="font-16">
+                                        <span class="text-warning mdi mdi-star"></span>
+                                        <span class="text-warning mdi mdi-star"></span>
+                                        <span class="text-warning mdi mdi-star"></span>
+                                        <span class="text-warning mdi mdi-star"></span>
+                                        <span class="text-warning mdi mdi-star"></span>
+                                    </p>
+
+                                    <div class="mt-2">
+                                        <h6 class="font-14">Tienda:</h6>
+                                        <h5> {{producto.tienda.nombre}}</h5>
+                                    </div>
+
+                                    <!-- Product stock -->
+                                    <div class="mt-3">
+                                        {% if producto.cantidad > 0 %}
+                                            <h4><span class="badge badge-success-lighten">Instock</span></h4>
+                                        {% else %}
+                                            <h4><span class="badge badge-danger-lighten">Instock</span></h4>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Product description -->
+                                    <div class="mt-4">
+                                        <h6 class="font-14">Precio:</h6>
+                                        <h3> ${{producto.precio}}</h3>
+                                    </div>
+
+                                    <div class="mt-3">
+                                        {% if producto.precio_old %}
+                                            {% if producto.precio_old != producto.precio %}
+                                                <h6 class="font-14">Precio Anterior:</h6>
+                                                <h5> <del>${{producto.precio_old}}</del></h5>
+                                            {% endif %}   
+                                        {% endif %} 
+                                    </div>
+
+                                    <!-- Quantity -->
+                                    <div class="mt-4">
+                                        <h6 class="font-14">Cantidad:</h6>
+                                        <div class="d-flex">
+                                            <input type="number" min="0" value="0" class="form-control" placeholder="Qty" style="width: 90px;">
+                                            <button type="button" class="btn btn-success ms-2"><i class="mdi mdi-cart me-1"></i> Añadir al carrito</button>
+                                        </div>
+                                    </div>
+                        
+                                    <!-- Product description -->
+                                    <div class="mt-4">
+                                        <h6 class="font-14">Descripcion:</h6>
+                                        <p>{{producto.descripcion}}</p>
+                                    </div>
+
+                                    <!-- Product information -->
+                                    <div class="mt-4">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <h6 class="font-14">Existencia en Stock:</h6>
+                                                <p class="text-sm lh-150">{{producto.cantidad}}</p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <h6 class="font-14">Numero de Ordenes:</h6>
+                                                <p class="text-sm lh-150">5,458</p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <h6 class="font-14">Ingresos:</h6>
+                                                <p class="text-sm lh-150">$8,57,014</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </form>
+                                
+                            </div> <!-- end col -->
+                        </div> <!-- end row-->
+
+                        <div class="table-responsive mt-4">
+                            <table class="table table-bordered table-centered mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Puntos de ventas</th>
+                                        <th>Precio</th>
+                                        <th>Stock</th>
+                                        <th>Ingresos</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>ASOS Ridley Outlet - NYC</td>
+                                        <td>$139.58</td>
+                                        <td>
+                                            <div class="progress-w-percent mb-0">
+                                                <span class="progress-value">478 </span>
+                                                <div class="progress progress-sm">
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 56%;" aria-valuenow="56" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>$1,89,547</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Marco Outlet - SRT</td>
+                                        <td>$149.99</td>
+                                        <td>
+                                            <div class="progress-w-percent mb-0">
+                                                <span class="progress-value">73 </span>
+                                                <div class="progress progress-sm">
+                                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 16%;" aria-valuenow="16" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>$87,245</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Chairtest Outlet - HY</td>
+                                        <td>$135.87</td>
+                                        <td>
+                                            <div class="progress-w-percent mb-0">
+                                                <span class="progress-value">781 </span>
+                                                <div class="progress progress-sm">
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 72%;" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>$5,87,478</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nworld Group - India</td>
+                                        <td>$159.89</td>
+                                        <td>
+                                            <div class="progress-w-percent mb-0">
+                                                <span class="progress-value">815 </span>
+                                                <div class="progress progress-sm">
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 89%;" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>$55,781</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div> <!-- end table-responsive-->
+                        
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+                {% include 'tienda/comments_prod.html' %}
+            </div> <!-- end col-->
+        </div>
+        <!-- end row-->
+        
+    </div> <!-- container -->
+    
+{% endblock %}

@@ -1,0 +1,170 @@
+{% extends 'InicioTiendaFull/base_landing.html' %}
+{% load static %}
+{% block content %}
+    <!-- START TIENDA -->
+    
+    <section class="py-1">
+        <div class="container">
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="#">Hyper</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'productos' %}">Productos</a></li>
+                                <li class="breadcrumb-item active">Detalles del Producto</li>
+                            </ol>
+                        </div>
+                        <h4 class="page-title">Detalles del Producto</h4>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-5">
+                    <!-- Product image -->
+                    <a href="javascript: void(0);" class="text-center d-block mb-4">
+                        <img src="{{producto.image.url}}" class="img-fluid" style="max-width: 280px;" alt="Product-img">
+                    </a>
+
+                    <div class="d-lg-flex d-none justify-content-center">
+                        <a href="javascript: void(0);">
+                            <img src="{{producto.image.url}}" class="img-fluid img-thumbnail p-2" style="max-width: 75px;" alt="Product-img">
+                        </a>
+                        <a href="javascript: void(0);" class="ms-2">
+                            <img src="{{producto.image1.url}}" class="img-fluid img-thumbnail p-2" style="max-width: 75px;" alt="Product-img">
+                        </a>
+                        <a href="javascript: void(0);" class="ms-2">
+                            <img src="{{producto.image2.url}}" class="img-fluid img-thumbnail p-2" style="max-width: 75px;" alt="Product-img">
+                        </a>
+                    </div>
+                </div> <!-- end col -->
+                <div class="col-lg-7">
+                    <form class="ps-lg-4">
+                        <!-- Product title -->
+                        <h3 >{{producto.nombre}} (Orange)</h3> 
+                                {% if user in producto.likes.all %}
+                                    <a href="" > 
+                                        <i class="mdi mdi-heart text-danger"></i><p>{{producto.likes.count}}</p>
+                                    </a>
+                                {% else %}
+                                    
+                                <h4 ><a href="" class="text-muted"> 
+                                        <i class="uil uil-heart-alt mx-1"></i>{{producto.likes.count}}
+                                    </a></h4> 
+                                    
+                                {% endif %}
+                        </h3> 
+                        <p class="mb-0">Added Date: {{producto.created.day}}/{{producto.created.month}}/{{producto.created.year}}</p>
+                        
+                        <h4 class="mb-1">Tienda:</h4>
+                        <div class="d-flex">
+                                <a href=""  class="text-muted ms-2"
+                                ><i class="me-1"></i> {{producto.tienda.nombre}}</a>
+                            </div>
+                            
+
+                        <h4 class="mb-1">Categoria:</h4>
+                        {% for categoria in producto.categorias.all %}
+                            <div class="d-flex">
+                                <a class="text-muted ms-2">
+                                    <i class="me-1"></i> {{categoria.nombre}}
+                                </a>
+                            </div>
+                        {% endfor %}
+
+                        <!-- Product stock -->
+                        {% if producto.vender %}
+                            {% if producto.cantidad > 0 %}
+                                <div class="mt-3">
+                                    <h4><span class="badge badge-success-lighten">Instock</span></h4>
+                                </div>
+                            {% else %}
+                                <div class="mt-3">
+                                    <h4><span class="badge badge-danger-lighten">Notstock</span></h4>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <div class="mt-3">
+                                <h4><span class="badge badge-danger-lighten">Notstock</span></h4>
+                            </div>
+                            
+                        {% endif %}
+
+                        <!-- Product description -->
+                        <div class="mt-3">
+                            <h6 class="font-14">Precio:</h6>
+                            <h3> $ {{producto.precio}}</h3>
+                            {% if producto.precio_old %}
+                                <h4><s>$ {{producto.precio_old}}</s></h4>
+                            {% endif %}
+                            
+                        </div>
+
+                        <!-- Quantity -->
+                        <div class="mt-4">
+                            <h6 class="font-14">Cantidad:</h6>
+                            <div class="d-flex">
+                                <input type="number" min="1" value="{{producto.contador_prod.cantidad}}" class="form-control" placeholder="0" style="width: 90px;">
+                                <a type="button" href="{% url 'carro:agregar' producto.id %}" class="btn btn-success ms-2"
+                                ><i class="mdi mdi-cart me-1"></i> Add to cart</a>
+                            </div>
+                        </div>
+            
+                        <!-- Product description -->
+                        <div class="mt-4">
+                            <h6 class="font-14">Description:</h6>
+                            <p>{{producto.descripcion}}</p>
+                        </div>
+
+                        <!-- Product information -->
+                        
+
+                    </form>
+                </div> <!-- end col -->
+            </div> <!-- end row-->  
+            <hr> 
+            <h3>Productos relacionados</h3>
+            <div class="table-responsive mt-4">
+                <table class="table table-bordered table-centered mb-3">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Categoria</th>
+                            <th>Precio</th>
+                            <th>Me Gusta</th>
+                            <th style="width:30px">Accion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for categoria in producto.categorias.all %}
+                            {% for product in  productos %}
+                                {% if categoria in product.categorias.all %}
+                                    <tr>
+                                        <td>{{product.nombre}}</td>
+                                        <td> {{categoria}}</td>
+                                        <td>${{product.precio}}</td>
+                                        <td>
+                                            {{producto.likes.count}}
+                                        </td>
+                                        <td class="table-action text-center">
+                                            <a href="{% url 'detalle_producto' product.pk %}" class="action-icon"> <i class="mdi mdi-eye"></i></a>
+                                            
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div> <!-- end table-responsive-->
+            <hr>
+            <!--Inicio de Comentarios-->
+            {% include 'tienda/comments_prod.html' %}
+            <!--Fin Comentarios-->
+            
+        </div> <!-- end container-->
+    </section>
+    <!-- END TIENDA -->
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends 'Dashboard/base_dash.html' %}
+{% load static %}
+{% block content %}
+  <!-- Start Content-->
+  <div class="container-fluid">
+          
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Blogs</a></li>
+                        <li class="breadcrumb-item active">Mis Blogs</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Mis Blogs</h4>
+            </div>
+        </div>
+    </div>     
+    <!-- end page title --> 
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
+                            <a href="{% url 'add_post' %}" class="btn btn-success mb-2">
+                                <i class="mdi mdi-plus-circle me-2"></i> Add Blog</a>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="text-sm-end">
+                                <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog"></i></button>
+                                <button type="button" class="btn btn-light mb-2 me-1">Import</button>
+                                <button type="button" class="btn btn-light mb-2">Export</button>
+                            </div>
+                        </div><!-- end col-->
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-centered table-striped dt-responsive nowrap w-100" id="products-datatable">
+                            <thead>
+                                <tr>
+                                    <th style="width: 20px;">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="customCheck1">
+                                            <label class="form-check-label" for="customCheck1">&nbsp;</label>
+                                        </div>
+                                    </th>
+                                    <th style="width: 150px;text-align: center;">Titulo</th>
+                                    <th style="text-align: center;">Categoria/as</th>
+                                    <th style="width: 100px;text-align: center;">Cant. Comentarios</th>
+                                    <th style="width: 100px;text-align: center;">Likes</th>
+                                    <th style="width: 60px;text-align: center;">Creado</th>
+                                    <th style="width: 60px;text-align: center;">Estado</th>
+                                    <th style="width: 100px;text-align: center;">Accion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                               
+                                {% for post in posts %}
+                                    
+                                    {% if user == post.autor %}
+                                        <tr>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" id="customCheck2">
+                                                    <label class="form-check-label" for="customCheck2">&nbsp;</label>
+                                                </div>
+                                            </td>
+                                            <td class="table-user" >
+                                                <img src="{{post.imagen.url}}" alt="table-user" class="me-2 rounded-circle">
+                                                <a href="javascript:void(0);" class="text-body fw-semibold">{{post.titulo}}</a>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                {% for categoria in post.categorias.all %}
+                                                    {{categoria.nombre|slice:'5'}},
+                                                {% endfor %}
+                                            </td>
+                                            <td style="text-align: center;">
+                                                {{post.comentarios.count}}
+                                            </td>
+                                            <td style="text-align: center;">
+                                                {{post.likes.count}}
+                                            </td>
+                                            <td style="text-align: center;">
+                                                {{post.created.day}}/{{post.created.month}}/{{post.created.year}}
+                                            </td>
+                                            <td style="text-align: center;">
+                                                {% if post.estado  %}
+                                                    <a ><span class="badge badge-success-lighten" >Active</span></a>
+                                                {% else %}
+                                                    <a ><span class="badge badge-danger-lighten" >Blocked</span></a>
+                                                {% endif %}
+                                            </td>
+
+                                            <td style="text-align: center;">
+                                                <a href="{% url 'update_post' post.pk %}" class="action-icon" > <i class="mdi mdi-square-edit-outline"></i></a>
+                                                <a href="{% url 'delete_post' post.pk %}" class="action-icon" > <i class="mdi mdi-delete"></i></a>
+                                                <a href="{% url 'blog_full' post.id %}" class="action-icon"> <i class="mdi mdi-eye"></i></a>
+                                            </td>
+                                        </tr>
+    
+                                    {% endif %}
+                                {% endfor %}
+                               
+                               
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div> <!-- end card-body-->
+            </div> <!-- end card-->
+        </div> <!-- end col -->
+    </div>
+    <!-- end row -->
+    
+</div> <!-- container -->
+ 
+                     
+
+{% endblock  %}

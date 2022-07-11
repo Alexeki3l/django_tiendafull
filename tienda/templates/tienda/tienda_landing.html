@@ -1,0 +1,191 @@
+{% extends 'InicioTiendaFull/base_landing.html' %}
+{% load static %}
+{% block content %}
+    <!-- START TIENDA -->
+    <
+    <section class="py-1">
+        <div class="container">
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <div class="page-title-right">
+                            
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Productos</a></li>
+                                <li class="breadcrumb-item active">Todos</li>
+                            </ol>
+                        </div>
+                        <h4 class="page-title">Productos</h4>
+                    </div>
+                    <div class="app-search col-xxl-6 mb-1 position-absolute start-50 translate-middle-x">
+                        <form>
+                            <div class="input-group ">
+                                <input type="text" class="form-control rounded-3" placeholder="Buscar...">
+                                <span class="mdi mdi-magnify search-icon rounded-3"></span>
+                                <!--<button class="input-group-text btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class='uil uil-sort-amount-down'></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a class="dropdown-item" href="#">Due Date</a>
+                                    <a class="dropdown-item" href="#">Added Date</a>
+                                    <a class="dropdown-item" href="#">Assignee</a>
+                                </div>-->
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mb-2">
+                <div class="col-sm-4">
+                    {% comment %} <a href="javascript:void(0);" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i></a> {% endcomment %}
+                </div>
+                <div class="col-sm-8">
+                    <div class="text-sm-end">
+                        
+                        <div class="btn-group">
+                            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                                <span class="visually-hidden">Toggle Dropdown</span>
+                            </button>
+                            {% if carrito %}
+                            <a href="{% url 'registrar2' %}" type="button" class="btn btn-info "><i class="mdi mdi-cart-variant"></i></a>
+                            {% else %}
+                            <a type="button" class="btn btn-info "><i class="mdi mdi-cart-off"></i></a>
+                            {% endif %}
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuClickableInside" style="width:850px;">
+                                {% include 'carro/widget.html' %}
+                            </ul>
+                          </div>
+                        {% comment %} <button type="button" class="btn btn-light mb-2 me-1">Import</button>
+                        <button type="button" class="btn btn-light mb-2">Export</button> {% endcomment %}
+                    </div>
+                </div><!-- end col-->
+            </div>
+            <hr>
+                {% if productos.count > 0 %}
+                    <div class="row">
+                        <!-- start col modificada -->
+                        
+                        {% for producto in productos %}
+                            <div class="col-md-6 col-xxl-3">
+                                <!-- project card -->
+                                <div class="card d-block rounded-3">
+                                    <!-- project-thumbnail -->
+                                    <img class="card-img-top rounded-3" src="{{producto.image.url}}"  style="height: 250px;" alt="project image cap">
+
+                                    <div class="card-img-overlay">
+                                        <div class="badge bg-success text-light p-1">new</div>
+                                    </div>
+                
+                                    <div class="card-body position-relative">
+                                        <!-- project title-->
+                                        <h4 class="mt-0">
+                                            <a href="{% url 'detalle_producto' producto.pk %}" class="text-title">{{producto.nombre}}</a>
+                                        </h4>
+                                        <div class="row"> 
+                                            <div class="col col-lg-3">
+                                                <p>{{producto.precio}}$</p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p><del>{{producto.precio_old}}$</del></p>
+                                            </div>    
+                                            
+                                        </div>
+                                        <!-- project detail-->
+                                        
+                                        <!-- <p class="mb-3">
+                                            <span class="pe-2 text-nowrap">
+                                                <i class="mdi mdi-format-list-bulleted-type"></i>
+                                                <b>3</b> Tasks
+                                            </span>
+                                            
+                                            <<span class="text-nowrap">
+                                                <i class="mdi mdi-comment-multiple-outline"></i>
+                                                <b>104</b> Comments
+                                            </span> 
+                                        </p> -->
+                                        
+
+                                        <div class="mb-3" id="tooltip-container5">
+                                            <!--<a href="javascript:void(0);" data-bs-container="#tooltip-container5" data-bs-toggle="tooltip" data-bs-placement="top" title="Mat Helme" class="d-inline-block">
+                                                <img src="assets/images/users/avatar-10.jpg" class="rounded-circle avatar-xs" alt="friend">
+                                            </a>
+                
+                                            <a href="javascript:void(0);" data-bs-container="#tooltip-container5" data-bs-toggle="tooltip" data-bs-placement="top" title="Michael Zenaty" class="d-inline-block">
+                                                <img src="assets/images/users/avatar-5.jpg" class="rounded-circle avatar-xs" alt="friend">
+                                            </a>
+                
+                                            <a href="javascript:void(0);" data-bs-container="#tooltip-container5" data-bs-toggle="tooltip" data-bs-placement="top" title="James Anderson" class="d-inline-block">
+                                                <img src="assets/images/users/avatar-7.jpg" class="rounded-circle avatar-xs" alt="friend">
+                                            </a>
+                                            <a href="javascript:void(0);" class="d-inline-block text-muted fw-bold ms-2">
+                                                +2 more
+                                            </a>-->
+                            
+                                            <p class="mb-3" style="padding: 8px 5px;">
+                                                <span class="pe-2 text-nowrap">
+                                                    {% if user in producto.likes.all %}
+                                                        <a href="#" class="btn btn-sm mx-1" ><i class='mdi mdi-heart text-danger'></i><b>{{producto.likes.count}}</b> Likes </a>
+                                                    {% else %}
+                                                        <a href="#" class="btn btn-sm"><i class='uil uil-heart-alt '></i><b>{{producto.likes.count}}</b> Likes </a>
+                                                    {% endif %}
+                                                    
+                                                </span> 
+                                                
+                                                <span class="text-nowrap">
+                                                    <i class="mdi mdi-comment-multiple-outline"></i>
+                                                    <b>{{total}}</b> Comments
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div class="text-muted text-end">
+                                            {{producto.created}}
+                                        </div>
+            
+                                        <div class="card-footer text-center " style="margin: 1px 1px 1px 1px;">
+                                            <a href="{% url 'carro:agregar' producto.id %}" class="btn btn-info rounded-3" style="padding: 5px">Add Carrito</a>
+                                        </div>
+                                        
+                                    </div> <!-- end card-body-->
+
+                                </div> <!-- end card-->
+                            </div> <!-- end col modficado -->
+                        {% endfor %} 
+                    </div> 
+                {% else %}  
+                    <div class="text-center">
+                        <h4 class="text-uppercase text-danger mt-3">Seccion vacia</h4>
+                        <img src="{% static 'InicioTiendaFull/assets_2/images/file-searching.svg' %}" height="220" alt="File not found Image">
+            
+                        
+                        <h4 class="text-muted mt-3">Lo sentimos en estos momentos no tenemos ningun producto que mostrarle.
+                        </h4>
+                        <h4 class="text-danger"> </h4>
+            
+                    </div>
+                {% endif %}
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">ATENCION</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5>Cuidado. Esta apunto de eliminar su carrito de compra. ¿Esta seguro de querer realizar esta operacion?</h5>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="{% url 'carro:limpiar' %}" type="button" class="btn btn-danger" class="action-icon text-danger" > <i class="mdi mdi-delete"></i>Eliminar Carrito</a>
+                    </div>
+                </div>
+                </div>
+            </div>
+            
+        </div> <!-- end container-->
+    </section>
+    <!-- END TIENDA -->
+{% endblock %}

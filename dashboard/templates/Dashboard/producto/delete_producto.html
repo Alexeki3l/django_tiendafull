@@ -1,0 +1,44 @@
+{% extends 'Dashboard/base_dash.html' %}
+{% load static %}
+{% block content %} 
+    <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'blog_dash' %}">Producto</a></li>
+                            <li class="breadcrumb-item active">Eliminar Producto</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">Eliminar Producto</h4>
+                </div>
+            </div>
+        </div>    
+        <div class="row"> 
+            <div class="col-12">
+                <div class="card text-center">
+                    <div class="card-body">   
+        <!-- end page title --> 
+                        {% comment %} action="{% url 'delete_post' post.pk %}" enctype="multipart/form-data" {% endcomment %}
+                        <form  method= "POST">
+                            {% csrf_token %}
+                            <h4>¿Deseas eliminar el Producto "{{producto.nombre}}"?</h4>
+                            <h4>El producto se eliminara tambien de la tienda "{{producto.tienda.nombre}}"
+                                 junto con todos los comentarios y demas datos asociados a él.</h4>
+                            
+                        
+                            <div class="my-3">
+                                <a href="{% url 'productos_dash' %}" class="btn btn-primary mx-3"> No, Ir atras</a> 
+                                <button class="btn btn-danger">Si, eliminar</button>
+                            </div>  
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div> 
+     </div> 
+{% endblock %}

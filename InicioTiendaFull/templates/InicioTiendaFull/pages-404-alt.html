@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+    <head>
+        <meta charset="utf-8">
+        <title>Error 404 | Hyper - Responsive Bootstrap 5 Admin Dashboard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description">
+        <meta content="Coderthemes" name="author">
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+        <!-- App css -->
+        <link href="{% static 'InicioTiendaFull/assets_2/css/icons.min.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'InicioTiendaFull/assets_2/css/app.min.css' %}" rel="stylesheet" type="text/css" id="light-style">
+        <link href="{% static 'InicioTiendaFull/assets_2/css/app-dark.min.css' %}" rel="stylesheet" type="text/css" id="dark-style">
+
+    </head>
+
+        <!-- Start Content-->
+        <div class="container-fluid py-5">
+                        
+            <!-- start page title -->
+                
+            <!-- end page title --> 
+
+            <div class="row justify-content-center">
+                <div class="col-lg-4">
+                    <div class="text-center">
+                        <img src="{% static 'InicioTiendaFull/assets_2/images/file-searching.svg' %}" height="220" alt="File not found Image">
+
+                        <h1 class="text-error mt-4">404</h1>
+                        <h4 class="text-uppercase text-danger mt-3">Pagina No Encontrada</h4>
+                        <p class="text-muted mt-3">Parece que te has equivocado de camino. No te preocupes...
+                            nos pasa a los mejores. Aquí tienes un
+                            pequeño consejo que puede ayudarte a retomar el camino.</p>
+
+                        <a class="btn btn-info mt-3" href="{% url 'Home' %}"><i class="mdi mdi-reply"></i> Retornar a Home</a>
+                    </div> <!-- end /.text-center-->
+                </div> <!-- end col-->
+            </div>
+            <!-- end row -->
+            
+        </div> <!-- container -->
+
+
+
+        <!-- bundle -->
+        <script src="{% static 'InicioTiendaFull/assets_2/js/vendor.min.js' %}"></script>
+        <script src="{% static 'InicioTiendaFull/assets_2/js/app.min.js' %}"></script>
+        
+    </body>
+</html>

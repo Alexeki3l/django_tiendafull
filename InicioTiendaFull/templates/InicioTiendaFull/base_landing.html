@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+    <head>
+        <meta charset="utf-8">
+        <title>Landing Page | Hyper - Responsive Bootstrap 5 Admin Dashboard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description">
+        <meta content="Coderthemes" name="author">
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="assets_2/images/favicon.ico">
+
+        <!-- App css -->
+        <link href="{% static 'InicioTiendaFull/assets_2/css/icons.min.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'InicioTiendaFull/assets_2/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'InicioTiendaFull/assets_2/css/app.min.css' %}" rel="stylesheet" type="text/css" id="light-style">
+        <link href="{% static 'InicioTiendaFull/assets_2/css/app-dark.min.css' %}" rel="stylesheet" type="text/css" id="dark-style">
+
+    </head>
+
+    <body class="">
+
+        <!-- NAVBAR START -->
+        <nav class="navbar navbar-expand-lg py-lg-3 navbar-dark bg-dark">
+            <div class="container">
+
+                <!-- logo -->
+                <a href="index.html" class="navbar-brand me-lg-5">
+                    <img src="assets_2/images/logo.png" alt="" class="logo-dark" height="18">
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="mdi mdi-menu"></i>
+                </button>
+
+                <!-- menus -->
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+                    <!-- left menu -->
+                    <ul class="navbar-nav me-auto align-items-center">
+                        <li class="nav-item mx-lg-1">
+                            <a class="nav-link {% if request.path == '/' %}active {% endif %}" href="{% url 'Home' %}">
+                                <i class="uil uil-home-alt me-1"></i>Home</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                            
+                        {% endif %}
+                        
+                        <li class="nav-item mx-lg-1">
+                            <a class="nav-link {% if request.path|slice:':8' == '/tienda/' %}active {% endif %}" href="{% url 'productos' %}">
+                                <i class="uil uil-box me-1"></i>Tienda
+                            </a>
+                            <!--<a class="nav-link dropdown-toggle arrow-none " href="#" id="topnav-apps" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="uil-box me-1"></i>Productos <div class="arrow-down"></div>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="topnav-apps">
+                                <a href="{% url 'productos' %} " class="dropdown-item">Todos</a>
+                                <a href="#" class="dropdown-item">Alimentos</a>
+                                <a href="#" class="dropdown-item">Piezas y respuestos</a>
+                                <a href="#" class="dropdown-item">Ropa</a>
+                            </div>-->
+                        </li>
+                        <li class="nav-item mx-lg-1">
+                            <a class="nav-link {% if request.path|slice:':6'  == '/blog/' %}active {% endif %}" href="{% url 'Blog' %}">
+                                <i class="uil uil-file-alt me-1"></i>Blogs
+                            </a>
+                        </li>
+                        <li class="nav-item mx-lg-1">
+                            <a class="nav-link {% if request.path == '/faq/' %}active {% endif %}" href="{% url 'Faq' %}">
+                                <i class="uil uil-question-circle me-1"></i>FAQs
+                            </a>
+                        </li>
+                        <li class="nav-item mx-lg-1">
+                            <a class="nav-link {% if request.path == '/contacts/' %}active {% endif %}" href="{% url 'Contactos' %}">
+                                <i class="uil uil-message me-1"></i>Contactanos
+                            </a>
+                        </li>
+                    </ul>
+
+                    <!-- right menu -->
+                    {% if not user.is_authenticated %}
+                        <ul class="navbar-nav ms-auto align-items-center">
+                            <li class="nav-item me-0">
+                                {% comment %} <a href="../../product/hyper-responsive-admin-dashboard-template/index.htm" target="_blank" class="nav-link d-lg-none">Purchase now</a> {% endcomment %}
+                                <a href="#" target="" class="btn btn-link text-white" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                    <i class="uil uil-user-plus me-1"></i> Registrarse
+                                </a>
+                                <a href="{% url 'login' %}" target="" class="btn btn-sm btn-light btn-rounded d-none d-lg-inline-flex">
+                                    <i class="uil uil-user me-1"></i> Autenticarse
+                                </a>
+                            </li>
+                        </ul>
+                    {% else %}
+                        <ul class="navbar-nav ms-auto align-items-center">
+                            
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="mdi mdi-account-circle-outline me-1"></i>Hola {{user}} <div class=""></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-apps">
+                                    {% if user.profile.tipo == 1 %}
+                                        <a class="dropdown-item" href="{% url 'home_dash' %}">
+                                            <i class="uil uil-analytics me-1"></i>Dashboard</a>
+                                    {% endif %}
+                                    <a href="" class="dropdown-item">
+                                        <i class="mdi mdi-cart-variant me-1"></i>Mis Compras</a>
+                                    <a href="" class="dropdown-item">
+                                        <i class="mdi mdi-diamond-stone me-1"></i>Regalos</a>
+                                    <a href="" class="dropdown-item">
+                                        <i class="mdi mdi-auto-fix me-1"></i>Lista de Deseos</a>
+                                    <a href="{% url 'logout' %}" class="dropdown-item">
+                                        <i class="mdi mdi-logout me-1"></i>Salir</a>
+                                    
+                                </div>
+                            </li>
+                        </ul>
+                    {% endif %}
+
+                </div>
+            </div>
+        </nav>
+        <!-- NAVBAR END -->
+        <!-- Modal del Registrar -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">Acuerdo</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Hola!!!!</p>
+                    <p>Al parecer quieres registrarte, realmente se ha decidido trabajar con nuestro sitio y ser parte
+                        de la comunidad. Tal vez, ya has visto nuestros blogs o simplemente ya husmeaste un poco. Si sigues adelante
+                        te registraras en nuestro sitio como un posible <strong> productor </strong> o <strong>proveedor</strong> de algun servicio.
+                    </p>
+                    <p> Para empezar queremos saber que estas de acuerdo con nuestas politicas y 
+                        saber que vamos en el mismo sentido. Dentro queremos que:</p>
+                    <p> 1- Que se respete las opiniones de los usuarios(clientes y proveedores/productores).</p>
+                    <p> 2- No faltar el respeto y respetar las decisiones de los demas. Ejemplo: Un precio de un producto que
+                        no lo ve correcto. Esta bien su opinion al respecto y la del proveedor responder pero explicativamente el por que o si respectarla.
+                    </p>
+                    <p> 3- No se permitiran malas palabras en los comentarios ni en las publicaciones. Los que incurran se les requerira.</p>
+                    <p> 4- Es necesario tener la mayor cantidad de datos posibles actualizados para que los clientes vean que son fiar.</p>
+                    <p> 5- Los casos de estafas a clientes llevaran a la expulsión y sus datos serán entregados a las autoridades para tratar el caso.</p>
+                    <p> 5.1- ¿Que se toma por estafa?: </p>
+                    <p> ---Los productos que al llegar al cliente no cumpla con los requisitos expuestos en el sitio.</p> 
+                    <p> ---Cobro de precio por encima de lo tratado. </p>
+                    <p> Si usted cree que no tendrá problema con esto entonces pulse el botón <strong>"Entendido"</strong> y siga adelante con el registro</p>
+                    
+                </div>
+                <div class="modal-footer">
+                  <a class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</a>
+                  <a href="{% url 'registrar' %}" class="btn btn-primary">Entiendo</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+
+        {% block content %}{% endblock %}
+
+        
+        <!-- START FOOTER -->
+        <footer class="bg-dark py-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <img src="assets_2/images/logo.png" alt="" class="logo-dark" height="18">
+                        <p class="text-muted mt-4">Hyper makes it easier to build better websites with
+                            <br> great speed. Save hundreds of hours of design
+                            <br> and development by using it.</p>
+
+                        <ul class="social-list list-inline mt-3">
+                            <li class="list-inline-item text-center">
+                                <a href="javascript: void(0);" class="social-list-item border-primary text-primary"><i class="mdi mdi-facebook"></i></a>
+                            </li>
+                            <li class="list-inline-item text-center">
+                                <a href="javascript: void(0);" class="social-list-item border-danger text-danger"><i class="mdi mdi-google"></i></a>
+                            </li>
+                            <li class="list-inline-item text-center">
+                                <a href="javascript: void(0);" class="social-list-item border-info text-info"><i class="mdi mdi-twitter"></i></a>
+                            </li>
+                            <li class="list-inline-item text-center">
+                                <a href="javascript: void(0);" class="social-list-item border-secondary text-secondary"><i class="mdi mdi-github"></i></a>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    <div class="col-lg-2 mt-3 mt-lg-0">
+                        <h5 class="text-light">Company</h5>
+
+                        <ul class="list-unstyled ps-0 mb-0 mt-3">
+                            <li class="mt-2"><a href="javascript: void(0);" class="text-muted">About Us</a></li>
+                            <li class="mt-2"><a href="javascript: void(0);" class="text-muted">Documentation</a></li>
+                            <li class="mt-2"><a href="javascript: void(0);" class="text-muted">Blog</a></li>
+                            <li class="mt-2"><a href="javascript: void(0);" class="text-muted">Affiliate Program</a></li>
+                        </ul>
+
+                    </div>
+
+                    <div class="col-lg-2 mt-3 mt-lg-0">
+                        <h5 class="text-light">Apps</h5>
+
+                        <ul class="list-unstyled ps-0 mb-0 mt-3">
+                            <li class="mt-2"><a href="javascript: void(0);" class="text-muted">Ecommerce Pages</a></li>
+                            <li class="mt-2"><a href="javascript: void(0);" class="text-muted">Email</a></li>
+                            <li class="mt-2"><a href="javascript: void(0);" class="text-muted">Social Feed</a></li>
+                            <li class="mt-2"><a href="javascript: void(0);" class="text-muted">Projects</a></li>
+                            <li class="mt-2"><a href="javascript: void(0);" class="text-muted">Tasks Management</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-2 mt-3 mt-lg-0">
+                        <h5 class="text-light">Discover</h5>
+
+                        <ul class="list-unstyled ps-0 mb-0 mt-3">
+                            <li class="mt-2"><a href="javascript: void(0);" class="text-muted">Help Center</a></li>
+                            <li class="mt-2"><a href="javascript: void(0);" class="text-muted">Our Products</a></li>
+                            <li class="mt-2"><a href="javascript: void(0);" class="text-muted">Privacy</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="mt-5">
+                            <p class="text-muted mt-4 text-center mb-0">© 2018 - 2021 Hyper. Design and coded by
+                                Coderthemes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- END FOOTER -->
+
+        <!-- bundle -->
+        <script src="{% static 'InicioTiendaFull/assets_2/js/vendor.min.js' %}"></script>
+        <script src="{% static 'InicioTiendaFull/assets_2/js/app.min.js' %}"></script>
+
+
+    </body>
+
+</html>

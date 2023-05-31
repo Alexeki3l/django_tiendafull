@@ -1,0 +1,114 @@
+{% extends 'Dashboard/base_dash.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="container-fluid">
+                            
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Tienda</a></li>
+                            <li class="breadcrumb-item active">Mis Tiendas</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">Mis Tiendas</h4>
+                </div>
+            </div>
+        </div>     
+        <!-- end page title --> 
+
+        <div class="row mb-2">
+            <div class="col-sm-4">
+                <a href="{% url 'add_tienda' %}" class="btn btn-danger btn-rounded mb-3"><i class="mdi mdi-plus"></i> Add Tienda</a>
+            </div>
+            <div class="col-sm-8">
+                <div class="text-sm-end">
+                    <div class="btn-group mb-3">
+                        <button type="button" class="btn btn-primary">All</button>
+                    </div>
+                    <div class="btn-group mb-3 ms-1">
+                        <button type="button" class="btn btn-light">Ongoing</button>
+                        <button type="button" class="btn btn-light">Finished</button>
+                    </div>
+                    <div class="btn-group mb-3 ms-2 d-none d-sm-inline-block">
+                        <button type="button" class="btn btn-secondary"><i class="dripicons-view-apps"></i></button>
+                    </div>
+                    <div class="btn-group mb-3 d-none d-sm-inline-block">
+                        <button type="button" class="btn btn-link text-muted"><i class="dripicons-checklist"></i></button>
+                    </div>
+                </div>
+            </div><!-- end col-->
+        </div> 
+        <!-- end row-->
+
+        
+            <div class="row">
+                {% for tienda in tiendas %}
+                    {% if user == tienda.encargado %}
+                        <div class="col-md-6 col-xxl-3">
+                            <!-- project card -->
+                            <div class="card d-block">
+                                <!-- project-thumbnail -->
+                                <img class="card-img-top" src="{{tienda.imagen.url}}" alt="project image cap">
+                                <div class="card-img-overlay">
+                                    {% for categoria in tienda.categorias.all %}
+                                        <div class="badge bg-success text-white p-1">{{categoria.nombre}}</div>
+                                    {% endfor %}
+                                </div>
+                                
+
+                                <div class="card-body position-relative">
+                                    <div class="dropdown card-widgets">
+                                        <a href="#" class="dropdown-toggle arrow-none" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="dripicons-dots-3"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <!-- item-->
+                                            <a href="{% url 'update_tienda' tienda.pk %}" class="dropdown-item"><i class="mdi mdi-pencil me-1"></i>Edit</a>
+                                            <!-- item-->
+                                            <a href="{% url 'tienda_delete' tienda.pk %}" class="dropdown-item"><i class="mdi mdi-delete me-1"></i>Delete</a>
+                                            <!-- item-->
+                                            
+                                        </div>
+                                    </div>
+                                    <!-- project title-->
+                                    <h4 class="mt-0">
+                                        <a href="{% url 'tienda_details' tienda.pk %}" class="text-title">{{tienda.nombre}}</a>
+                                    </h4>
+                                    
+
+                                    <!--TEXTO-->
+                                    <p class="text-muted font-13 mb-3">{{tienda.descripcion|slice:'80'}}
+                                        <a href="javascript:void(0);" class="fw-bold text-muted"> ...view more</a>
+                                    </p>
+
+                                    <!-- project detail-->
+                                    <p class="mb-3">
+                                        <span class="pe-2 text-nowrap">
+                                            <i class="mdi mdi-format-list-bulleted-type"></i>
+                                            <b>3</b> Likes
+                                        </span>
+                                        
+                                        <span class="text-nowrap">
+                                            <i class="mdi mdi-comment-multiple-outline"></i>
+                                            <b>104</b> Comments
+                                        </span>
+                                    </p>
+                                    
+                                </div> <!-- end card-body-->
+                            </div> <!-- end card-->
+                        </div> <!-- end col -->
+                    {% endif %}
+                {% endfor %}
+                
+            </div>
+            <!-- end row-->
+        
+        
+    </div> <!-- container -->
+
+{% endblock %}

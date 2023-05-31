@@ -1,0 +1,57 @@
+{% extends 'InicioTiendaFull/base_landing.html' %}
+{% load static %}
+{% block content %}
+    <!-- START FAQ -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="text-center">
+                        <h1 class="mt-0"><i class="mdi mdi-frequently-asked-questions"></i></h1>
+                        <h3>Frequently Asked <span class="text-primary">Questions</span></h3>
+                        <p class="text-muted mt-2">Aqui se exponen algunas de las preguntas que tal vez usted 
+                            se halla hecho sobre el sitio. En que caso que estas no atiendan sus dudas puede hacernos saber
+                            correo o por un tweet a nuestra pagina oficial.
+                        </p>
+
+                        <button type="button" class="btn btn-success btn-sm mt-2"><i class="mdi mdi-email-outline me-1"></i> Email us your question</button>
+                        <button type="button" class="btn btn-info btn-sm mt-2 ms-1"><i class="mdi mdi-twitter me-1"></i> Send us a tweet</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                {% for faq in faqs %}
+                    <div class="col-lg-5 offset-lg-1">
+                        <!-- Question/Answer -->
+                        <div>
+                            <div class="faq-question-q-box">Q.</div>
+                            <h4 class="faq-question text-body">{{faq.pregunta}}</h4>
+                            <p class="faq-answer mb-4 pb-1 text-muted">{{faq.respuesta}}</p>
+                        </div>
+
+
+                    </div>
+                {% endfor %}
+                <!--/col-lg-5 -->
+                <!--
+                <div class="col-lg-5">
+                    
+                    <div>
+                        <div class="faq-question-q-box">Q.</div>
+                        <h4 class="faq-question text-body">Can this theme work with Wordpress?</h4>
+                        <p class="faq-answer mb-4 pb-1 text-muted">No. This is a HTML template. It won't directly with
+                            wordpress, though you can convert this into wordpress compatible theme.</p>
+                    </div>
+
+                    
+
+                </div> -->
+                <!--/col-lg-5-->
+            </div>
+            <!-- end row -->
+
+        </div> <!-- end container-->
+    </section>
+    <!-- END FAQ -->
+{% endblock %}

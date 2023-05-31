@@ -1,0 +1,72 @@
+{% extends 'Dashboard/base_dash.html' %}
+{% load static %}
+{% block content %}
+    <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'blog_dash' %}">Blogs</a></li>
+                            <li class="breadcrumb-item active">Add Blog</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">Add Blog</h4>
+                </div>
+            </div>
+        </div>  
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">   
+        <!-- end page title --> 
+                        <form action="{% url 'add_post' %}" enctype="multipart/form-data" method= "POST">
+                            {% csrf_token %}
+                            {% comment %} {{form.as_p}} {% endcomment %}
+                            <div >
+                                <label for="id_titulo">Titulo:</label>
+                                <input type="text" class="form-control" id="id_titulo" maxlength="50" name="titulo" required>
+                                
+                              </div>
+
+                              <div class="my-3">
+                                <label for="id_categorias">Categorias:</label>
+                                <select class="form-control" id="id_categorias" name="categorias" multiple>
+                                    {% for categoria in categorias %}
+                                        <option value="1">{{categoria.nombre}}</option>
+                                    {% endfor %}
+                                    
+                                </select>
+                                
+                              </div>
+
+                              <div class="my-3">
+                                <label for="id_imagen">Imagen:</label>
+                                <input type="file" class="" id="id_imagen" accept="image/*" name="imagen" >
+                                
+                              </div>
+
+                              <div class="my-3">
+                                <label for="id_contenido">Contenido:</label>
+                                <textarea class="form-control" id="id_contenido" name="contenido" required></textarea>
+                                
+                              </div>
+
+                              <div class="my-3">
+                                <label for="id_estado">Estado:</label>
+                                <input type="checkbox"  id="id_estado" name="estado" checkbox>
+                                
+                              </div>
+                              
+                              
+                              <div class="my-3">
+                                <button class="btn btn-success">Añadir</button>
+                              </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

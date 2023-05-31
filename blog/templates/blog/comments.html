@@ -1,0 +1,185 @@
+{% extends 'InicioTiendaFull/base_landing.html' %}
+{% load static %}
+{% block content  %}
+  <main class="container py-2">
+    <div class="col-8">
+      <div class="card">
+          <div class="card-body">
+              <h5 class="mt-0 mb-3">Comentarios ({{total}}) </h5>
+              
+      
+              {% for comentario in post.comentarios.all %}
+              <div class="d-flex align-items-start mt-2 mx-1">
+                  <img class="me-3 avatar-sm rounded-circle" src="{{user.profile.imagen.url}}" alt="Generic placeholder image">
+                  <div class="w-100 overflow-hidden">
+                      <h5 class="mt-0">{{comentario.autor}}</h5>
+                      <h6 class="mt-0">{{comentario.created}}</h6>
+                      {{comentario.contenido}}
+                      {{comentario.post_id}}
+                      
+      
+                      <div class="my-1 mx-1">
+                        {% if user.is_authenticated %}
+                          {% if user in comentario.likes.all %}
+                            <a href="{% url 'dislike_comment' comentario.id %}" class="btn btn-sm btn-link text-muted mx-1" ><i class='mdi mdi-heart text-danger'></i> {{comentario.likes.count}} Likes</a>
+                          {% else %}
+                            <a href="{% url 'like_comment' comentario.id %}" class="btn btn-sm btn-link text-muted"><i class='uil uil-heart-alt '></i> {{comentario.likes.count}} Likes</a>
+                          {% endif %}
+                          {% endif %}
+                            {% if comentario.respuestas.count == 0 %}
+                              <a href="javascript: void(0);" class="btn btn-sm btn-link text-muted"><i class='uil uil-comments-alt'></i> {{comentario.respuestas.count}} Respuestas</a>
+                            {% else %}
+                              <a class="btn btn-sm btn-link text-muted" data-bs-toggle="collapse" href="#collapse{{comentario.id}}" aria-expanded="false" aria-controls="collapseExample">
+                                <i class='uil uil-comments-alt text-primary'></i> 
+                                {{comentario.respuestas.count}} Respuestas</a>
+                             {% endif %}
+                <!---------------------------------------FIN------------------------------------------------>
+      
+                <!-----------------------BEGIN COLLAPSE RESPONDER---------------------------------------->
+                            <a class="btn btn-sm btn-link text-muted" data-bs-toggle="collapse" href="#collapseExample{{comentario.id}}" onclick="" aria-expanded="false" aria-controls="collapseExample4">
+                              <i class="mdi mdi-reply"></i>Responder</a>
+                              
+                <!------------------------FIN COLLAPSE RESPONDER----------------------------------------->
+      
+                <!---------------Opciones de editar y eliminar comentarios---------------------------->
+                          
+                            {% if user == comentario.autor %}
+                                
+                              <a class="btn btn-sm btn-link text-muted text-end dropstart" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class='dripicons-dots-3'></i> 
+                              </a>
+                              <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
+                                <li><a href="{% url 'edit_comment' comentario.pk %}" class="dropdown-item" >Editar</a></li>
+                                <li><a class="dropdown-item" href="{% url 'delete' comentario.id %}">Eliminar</a></li>
+                              </ul>
+                            {% endif %}
+                          
+                      </div>
+      
+                    <!---*****************Modal de editar comentarios*****************************-->
+                            
+                            
+            
+                      <!--Collapse con las respuestas-->
+                      <div class="collapse" id="collapse{{comentario.id}}">
+                        
+                        {% for respuesta in comentario.respuestas.all %}
+                            <div class="d-flex align-items-start mt-3">
+                                <a class="pe-3" href="#">
+                                    <img src="{{user.profile.imagen.url}}" class="avatar-sm rounded-circle" alt="Generic placeholder image">
+                                </a>
+                                <div class="w-100 overflow-hidden">
+                                    <h5 class="mt-0">{{respuesta.autor}}</h5>
+                                    <h6 class="mt-0">{{respuesta.created}}</h6>
+                                    {{respuesta}}
+                                    
+                            
+                                    <div class="my-1">
+                                      {% if user in respuesta.likes.all %}
+                                        <a href="{% url 'dislike_reply' respuesta.id %}" class="btn btn-sm btn-link text-muted mx-1" ><i class='mdi mdi-heart text-danger'></i> {{respuesta.likes.count}} Likes</a>
+                                      {% else %}
+                                        <a href="{% url 'like_reply' respuesta.id %}" class="btn btn-sm btn-link text-muted"><i class='uil uil-heart-alt '></i> {{respuesta.likes.count}} Likes</a>
+                                      {% endif %}
+                                        
+                                        <!--Responder en las respuestas-->
+                                        <a class="btn btn-sm btn-link text-muted" data-bs-toggle="collapse" href="#collapseExample4" aria-expanded="false" aria-controls="collapseExample4">
+                                          <i class="mdi mdi-reply"></i>Responder</a>
+                                        <!-------------------------------------------------------->
+      
+                                        {% if user == respuesta.autor %}
+                                          <a class="btn btn-sm btn-link text-muted text-end dropstart" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class='dripicons-dots-3'></i> 
+                                          </a>
+                                          <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
+                                            <li><a href="{% url 'edit_reply' respuesta.id %}" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editar">Editar</a></li>
+                                            <li><a class="dropdown-item" href="{% url 'delete_reply' respuesta.id %}">Eliminar</a></li>
+                                          </ul>
+                                        {% endif %}
+                                    </div>
+                                    
+                            
+                            
+                                </div>
+                            </div>
+                          
+                        {% endfor %}
+                        
+                    </div>
+                      <!--FIN Collapse-->
+      
+                      <div class="collapse" id="collapseExample{{comentario.id}}">
+                        {% if user.is_authenticated %} 
+                          <form method="POST" action="{% url 'reply' comentario.id %}">
+                            {% csrf_token %}
+                            <textarea class="form-control form-control-light mb-2" placeholder="responder" id="contenido" name="contenido"  rows="3"></textarea>
+                            
+                            <div class="text-end">
+                                <div class="btn-group mb-2">
+                                    <button type="button" class="btn btn-link btn-sm text-muted font-18"><i class="dripicons-paperclip"></i></button>
+                                </div>
+                                <div class="btn-group mb-2 ms-2">
+                                    {% comment %} <a type="bottom" class="btn btn-success btn-sm" href="{% url 'add_comment' post.id %}">
+                                        <i class="uil uil-message me-1"></i>
+                                        Enviar
+                                    </a>  {% endcomment %}
+                                    <button type="buttom" class="btn btn-success btn-sm" >
+                                      <i class="uil uil-message me-1"></i>
+                                      Enviar
+                                    </button> 
+                                    
+                                    
+                                </div>
+                            </div>
+                          </form>
+                        
+                          {% else %}
+                          <h5 class="mt-4 text-danger text-center">Debes estar autencicado para escribir comentarios en este blog</h5>
+                        {% endif %}
+                      </div>
+                    
+                  </div>
+              </div>
+              {% endfor %}
+              
+              
+              <div class="text-center mt-2">
+                <a class="text-danger" data-bs-toggle="collapse" href="#collapseExample2" onclick="" aria-expanded="false" aria-controls="collapseExample2">
+                  Comentar </a>
+              </div> 
+              
+              <div class="collapse" id="collapseExample2">
+                {% if user.is_authenticated %} 
+                  <form method="POST" action="{% url 'add_comment' post.id %}">
+                    {% csrf_token %}
+                    <textarea class="form-control form-control-light mb-2" placeholder="Escribe tu comentario aqui" id="contenido" name="contenido" rows="3"></textarea>
+                    {% comment %} {{form.as_p}} {% endcomment %}
+                    <div class="text-end">
+                        <div class="btn-group mb-2">
+                            <button type="button" class="btn btn-link btn-sm text-muted font-18"><i class="dripicons-paperclip"></i></button>
+                        </div>
+                        <div class="btn-group mb-2 ms-2">
+                            {% comment %} <a type="bottom" class="btn btn-success btn-sm" href="{% url 'add_comment' post.id %}">
+                                <i class="uil uil-message me-1"></i>
+                                Enviar
+                            </a>  {% endcomment %}
+                            <button type="buttom" class="btn btn-success btn-sm" >
+                              <i class="uil uil-message me-1"></i>
+                              Enviar
+                            </button> 
+                            
+                            
+                        </div>
+                    </div>
+                  </form>
+                
+                  {% else %}
+                  <h5 class="mt-4 text-danger text-center">Debes estar autencicado para escribir comentarios en este blog</h5>
+                {% endif %}
+              </div>  
+      
+              
+          </div> <!-- end card-body-->
+      </div>
+    </div>
+  </main>
+{% endblock  %}

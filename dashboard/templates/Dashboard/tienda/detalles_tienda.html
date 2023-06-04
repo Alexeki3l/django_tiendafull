@@ -41,33 +41,33 @@
                         </div>
                         <!-- project title-->
                         <h3 class="mt-0">
-                            {{tienda.nombre}}
+                            {{store.nombre}}
                         </h3>
 
-                        {% for categoria in tienda.categorias.all %}
+                        {% for categoria in store.categorias.all %}
                             <div class="badge bg-success text-white mb-3">{{categoria.nombre}}</div>
                         {% endfor %}
 
-                        <img class="card-img-top" src="{{tienda.imagen.url}}" alt="project image cap">
+                        <img class="card-img-top" src="{{multimedia.file}}" alt="project image cap">
 
                         
                         <div class="me-2">
                             <h5 >Sobre nosotros:</h5>
                             
                             <p class="text-muted mb-2">
-                                {{tienda.descripcion}}
+                                {{store.descripcion}}
                             </p>
                         </div>
 
                         <div id="tooltip-container">
                             <h5>Estamos en:</h5>
-                            <a>{{tienda.direccion}}</a>
+                            <a>{{store.direccion}}</a>
                         </div>
 
                         <div class="row">
                             <div class="col-md-4">
                                 <h5>Encargado:</h5>
-                                {{tienda.encargado.first_name}} {{tienda.encargado.last_name}}
+                                {{store.encargado.first_name}} {{store.encargado.last_name}}
                             </div>
                         </div>
 
@@ -125,7 +125,7 @@
                 {% comment %} <div class="card">
                     <div class="card-body">
                         <h5 class="card-title mb-3">Logo</h5>
-                        <img class="card-img-top" src="{{tienda.imagen.url}}" alt="project image cap">
+                        <img class="card-img-top" src="{{store.imagen.url}}" alt="project image cap">
                     </div>
                 </div> {% endcomment %}
                 <!-- end card-->

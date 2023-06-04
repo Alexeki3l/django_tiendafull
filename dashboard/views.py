@@ -6,12 +6,14 @@ from django.utils import timezone
 from numpy import product
 from blog.models import Comentario, Post, Categoria
 from tienda.models import Product, Store, CategoriaProducto, CategoriaTienda, Cliente
+from multimedia.models import Multimedia
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 from .forms import EditPostForm, EditProductoForm, AddProductoView, AddTiendaView, EditTiendaForm
 from django.utils.decorators import method_decorator
 from .decorators import proveedor_required
+
 
 
 # Create your views here.
@@ -94,11 +96,32 @@ class TiendasView(LoginRequiredMixin, ListView):
     @method_decorator(proveedor_required)
     def dispatch(self, request, *args, **kwargs):
         return super(TiendasView, self).dispatch(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        dicc_aux = {}
+        for tienda in context['tiendas']:
+            try:
+                media_obj = tienda.multimedia_set.all().first()
+                if media_obj.file and hasattr(media_obj.file, 'url'):
+                    dicc_aux[f'{media_obj.file.url}'] = media_obj
+                    # dicc_aux[f'{tienda}'] = media_obj.file.url
 
+            except AttributeError:
+                # list_aux.append('/media/store/sin-photo.jpg' )
+                multimedia = Multimedia(stores = tienda, type = "2")
+                multimedia.save()
+                dicc_aux['/media/store/sin-photo.jpg'] = multimedia
+            # finally:
+        
+        context['stores'] = dicc_aux
+        return context
+        
 class DetallesTiendaView(LoginRequiredMixin, DetailView):
     model = Store
     template_name = 'Dashboard/tienda/detalles_tienda.html'
-    context_object_name = 'tienda'  
+    context_object_name = 'store'  
 
     @method_decorator(proveedor_required)
     def dispatch(self, request, *args, **kwargs):
@@ -106,7 +129,8 @@ class DetallesTiendaView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["productos"] = Producto.objects.filter(tienda_id = context['tienda'].id)
+        context["productos"] = Product.objects.filter(tienda_id = context['store'].id)
+        context["multimedia"] = Multimedia.objects.get(stores = context['store'].id)
         return context
 
 class AdicionarTiendaView(LoginRequiredMixin, CreateView):
@@ -129,6 +153,7 @@ class EditarTiendaView(LoginRequiredMixin, UpdateView):
     model = Store
     form_class = EditTiendaForm
     template_name = 'Dashboard/tienda/update_tienda.html'
+    # success_url = reverse_lazy('update_tienda')
 
     def form_valid(self, form):
         form.instance.updated  = timezone.now()
@@ -150,7 +175,7 @@ class ProductosView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["categorias_productos"] = CategoriaProducto.objects.all()
-        context["tiendas"] = Tienda.objects.all()
+        context["tiendas"] = Store.objects.all()
         return context
 
 class DetallesProductoView(LoginRequiredMixin, DetailView):
@@ -189,7 +214,6 @@ class AdicionarProductoView(LoginRequiredMixin, CreateView):
     # form_class = AddProductoView
     template_name = 'Dashboard/producto/add_producto.html'
     fields=('nombre','precio','categorias','tienda',
-            'image','image1','image2',
             'descripcion','cantidad','vender',)
 
     @method_decorator(proveedor_required)

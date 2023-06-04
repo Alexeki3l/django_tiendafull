@@ -5,6 +5,8 @@ from django.utils import timezone
 # Trabajo con señales
 from django.db.models.signals import post_save
 
+
+
 # Create your models here.
 class TipoPerfil(models.Model):
     nombre  = models.CharField(max_length=50)
@@ -26,9 +28,8 @@ class Profile(models.Model):
         (2, 'Cliente'),
     )
     user         = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    # tipo         = models.ForeignKey(TipoPerfil,null=True, blank=True, on_delete=models.CASCADE)
     tipo         = models.IntegerField(choices=TIPE_VALUES, default=1)
-    imagen       = models.ImageField(upload_to='perfil',null=True, blank=True, default='sin-foto.jpg')
+    # imagen       = models.ImageField(upload_to='perfil',null=True, blank=True, default='sin-foto.png')
     bio          = models.TextField(null=True, blank=True)
     telf         = models.CharField(max_length=15, null=True, blank=True)
     direccion    = models.TextField(null=True, blank=True)
@@ -44,12 +45,18 @@ class Profile(models.Model):
         return f'Perfil de {self.user.username}'
 
     def image_url(self):
-        if self.imagen and hasattr(self.imagen, 'url'):
-            return self.imagen.url
+        try:
+            photo = self.multimedia_set.all()[0]
+            if photo.file and hasattr(photo.file, 'url'):
+                return photo.file.url
+        except IndexError:
+            return '/media/perfil/sin-foto.png'
+        
 
 def create_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user = instance)
+        profile = Profile.objects.create(user = instance)
+        # Multimedia.objects.create(profiles = profile, type = "1")
 
 post_save.connect(create_profile, sender = User)
 

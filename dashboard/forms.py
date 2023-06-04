@@ -10,7 +10,7 @@ class EditPostForm(forms.ModelForm):
 
     class Meta:
         model  = Post  
-        fields = ('titulo','categorias','imagen','contenido','estado')
+        fields = ('titulo','categorias','contenido','estado')
         widgets={
             'titulo':forms.TextInput(attrs={'class':'form-control'}),
             'categorias':forms.SelectMultiple(attrs={'class':'form-control'}),
@@ -22,7 +22,7 @@ class EditPostForm(forms.ModelForm):
 class EditProductoForm(forms.ModelForm):
     class Meta:
         model  = Product
-        fields = ('nombre','precio','image','tienda','image','image1','image2','descripcion','cantidad',)
+        fields = ('nombre','precio','tienda','descripcion','cantidad',)
         widgets={
             'nombre':forms.TextInput(attrs={'class':'form-control'}),
             # 'precio':forms.FloatField(attrs={'class':'form-control'}),
@@ -52,7 +52,7 @@ class AddProductoView(forms.ModelForm):
 class AddTiendaView(forms.ModelForm):
     class Meta:
         model  = Store  
-        fields = ('nombre','descripcion','direccion','imagen','categorias','is_open',)
+        fields = ('nombre','descripcion','direccion','categorias','is_open',)
         # fields = ('__all__')
         widgets={
             'nombre':forms.TextInput(attrs={'class':'form-control'}),
@@ -64,11 +64,11 @@ class AddTiendaView(forms.ModelForm):
             'descripcion':forms.Textarea(attrs={'class':'form-control'}),
             # 'instock':forms.BooleanField(attrs={'class':'form-control'}),
         }
-
+        
 class EditTiendaForm(forms.ModelForm):
     class Meta:
         model  = Store  
-        fields = ('nombre','direccion','imagen','descripcion','is_open',)
+        fields = ('nombre','direccion','descripcion','is_open',)
         widgets={
             'nombre':forms.TextInput(attrs={'class':'form-control'}),
             'direccion':forms.TextInput(attrs={'class':'form-control'}),

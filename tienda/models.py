@@ -35,7 +35,7 @@ class Store(models.Model):
     descripcion = models.TextField()
     direccion   = models.CharField(max_length=300)
     encargado   = models.ForeignKey(User, on_delete=models.CASCADE)
-    imagen      = models.ImageField(upload_to='tienda')
+    # imagen      = models.ImageField(upload_to='tienda')
     categorias  = models.ManyToManyField(CategoriaTienda, null=True, blank=True, related_name='categorias_tienda')
     is_open        = models.BooleanField(default=True)
     likes       = models.ManyToManyField(User, null=True, blank=True, related_name='tienda_likes' )
@@ -57,18 +57,12 @@ class Store(models.Model):
     def get_absolute_url(self):
         return reverse('tiendas_dash')
 
-    def image_url(self):
-        if self.imagen and hasattr(self.imagen, 'url'):
-            return self.imagen.url
 
 class Product(models.Model):
     nombre          = models.CharField(max_length=50)
     precio          = models.FloatField()
     precio_old      = models.FloatField(blank=True, null=True)
     descripcion     = models.TextField(max_length=1000)
-    image           = models.ImageField(upload_to='producto')
-    image1          = models.ImageField(upload_to='producto')
-    image2          = models.ImageField(upload_to='producto')
     tienda          = models.ForeignKey(Store, null=True, blank=True, on_delete=models.CASCADE)
     cantidad        = models.IntegerField()
     vender          = models.BooleanField(default= True)
@@ -91,9 +85,9 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('productos_details', kwargs={'pk': self.pk})
 
-    def image_url(self):
-        if self.imagen and hasattr(self.imagen, 'url'):
-            return self.imagen.url
+    # def image_url(self):
+    #     if self.imagen and hasattr(self.imagen, 'url'):
+    #         return self.imagen.url
 
 class Cliente(models.Model):
     person    = models.OneToOneField(User, on_delete=models.CASCADE)

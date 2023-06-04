@@ -47,15 +47,15 @@
 
         
             <div class="row">
-                {% for tienda in tiendas %}
-                    {% if user == tienda.encargado %}
+                {% for clave, valor in stores.items %}
+                    {% if user == valor.stores.encargado %}
                         <div class="col-md-6 col-xxl-3">
                             <!-- project card -->
                             <div class="card d-block">
                                 <!-- project-thumbnail -->
-                                <img class="card-img-top" src="{{tienda.imagen.url}}" alt="project image cap">
+                                <img class="card-img-top" src="{{valor.file}}" alt="project image cap">
                                 <div class="card-img-overlay">
-                                    {% for categoria in tienda.categorias.all %}
+                                    {% for categoria in valor.stores.categorias.all %}
                                         <div class="badge bg-success text-white p-1">{{categoria.nombre}}</div>
                                     {% endfor %}
                                 </div>
@@ -68,21 +68,21 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <!-- item-->
-                                            <a href="{% url 'update_tienda' tienda.pk %}" class="dropdown-item"><i class="mdi mdi-pencil me-1"></i>Edit</a>
+                                            <a href="{% url 'update_tienda' valor.stores.pk %}" class="dropdown-item"><i class="mdi mdi-pencil me-1"></i>Edit</a>
                                             <!-- item-->
-                                            <a href="{% url 'tienda_delete' tienda.pk %}" class="dropdown-item"><i class="mdi mdi-delete me-1"></i>Delete</a>
+                                            <a href="{% url 'tienda_delete' valor.stores.pk %}" class="dropdown-item"><i class="mdi mdi-delete me-1"></i>Delete</a>
                                             <!-- item-->
                                             
                                         </div>
                                     </div>
                                     <!-- project title-->
                                     <h4 class="mt-0">
-                                        <a href="{% url 'tienda_details' tienda.pk %}" class="text-title">{{tienda.nombre}}</a>
+                                        <a href="{% url 'tienda_details' valor.stores.pk %}" class="text-title">{{valor.stores.nombre}}</a>
                                     </h4>
                                     
 
                                     <!--TEXTO-->
-                                    <p class="text-muted font-13 mb-3">{{tienda.descripcion|slice:'80'}}
+                                    <p class="text-muted font-13 mb-3">{{valor.stores.descripcion|slice:'80'}}
                                         <a href="javascript:void(0);" class="fw-bold text-muted"> ...view more</a>
                                     </p>
 

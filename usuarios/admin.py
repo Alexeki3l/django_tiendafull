@@ -23,7 +23,15 @@ class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user','img','tipo', 'telf', 'direccion', 'localizacion',)
 
     def img(self,obj):
-        return format_html('<img src={} width="130" height="100" />',obj.imagen.url )
+        # var = obj.image_url
+        try:
+            photo = obj.multimedia_set.all()[0]
+            if photo.file and hasattr(photo.file, 'url'):
+                return format_html('<img src={} width="130" height="100" />',photo.file.url)
+        except:
+            return format_html('<img src={} width="130" height="100" />','/media/perfil/sin-foto.png')
+            
+
     
 
 admin.site.register(TipoPerfil,TipoPerfilAdmin)

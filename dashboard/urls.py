@@ -34,11 +34,6 @@ urlpatterns = [
 
     # --------------------DASHBOARD CLIENTES------------------------
     path('clientes/', views.ClientesView.as_view(), name="clientes_dash"),
-
-
-
-
-    
     
 ]
 

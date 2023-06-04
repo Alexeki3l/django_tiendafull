@@ -51,6 +51,7 @@ MY_APPS=[
     "usuarios",
     "dashboard",
     'carro',
+    'multimedia',
 ]
 
 THIRD = [

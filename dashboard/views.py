@@ -5,7 +5,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.utils import timezone
 from numpy import product
 from blog.models import Comentario, Post, Categoria
-from tienda.models import Producto, Tienda, CategoriaProducto, CategoriaTienda, Cliente
+from tienda.models import Product, Store, CategoriaProducto, CategoriaTienda, Cliente
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
@@ -87,7 +87,7 @@ class DeleteBlogView(LoginRequiredMixin,DeleteView):
 # ----------------------Tienda--------------------------
 
 class TiendasView(LoginRequiredMixin, ListView):
-    model = Tienda
+    model = Store
     template_name = 'Dashboard/tienda/tiendas.html'
     context_object_name= 'tiendas'
 
@@ -96,7 +96,7 @@ class TiendasView(LoginRequiredMixin, ListView):
         return super(TiendasView, self).dispatch(request, *args, **kwargs)
 
 class DetallesTiendaView(LoginRequiredMixin, DetailView):
-    model = Tienda
+    model = Store
     template_name = 'Dashboard/tienda/detalles_tienda.html'
     context_object_name = 'tienda'  
 
@@ -110,7 +110,7 @@ class DetallesTiendaView(LoginRequiredMixin, DetailView):
         return context
 
 class AdicionarTiendaView(LoginRequiredMixin, CreateView):
-    model = Tienda
+    model = Store
     form_class = AddTiendaView
     template_name = 'Dashboard/tienda/add_tienda.html'
 
@@ -120,13 +120,13 @@ class AdicionarTiendaView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 class EliminarTiendaView(LoginRequiredMixin, DeleteView):
-    model = Tienda
+    model = Store
     template_name = 'Dashboard/tienda/delete_tienda.html'
     success_url = reverse_lazy('tiendas_dash')
 
 
 class EditarTiendaView(LoginRequiredMixin, UpdateView):
-    model = Tienda
+    model = Store
     form_class = EditTiendaForm
     template_name = 'Dashboard/tienda/update_tienda.html'
 
@@ -139,7 +139,7 @@ class EditarTiendaView(LoginRequiredMixin, UpdateView):
 # -------------------Productos---------------------------
 
 class ProductosView(LoginRequiredMixin, ListView):
-    model = Producto
+    model = Product
     template_name = 'Dashboard/producto/productos.html'
     context_object_name= 'productos' 
 
@@ -154,7 +154,7 @@ class ProductosView(LoginRequiredMixin, ListView):
         return context
 
 class DetallesProductoView(LoginRequiredMixin, DetailView):
-    model = Producto
+    model = Product
     template_name = 'Dashboard/producto/detalles_producto.html'
     context_object_name = 'producto'
 
@@ -163,7 +163,7 @@ class DetallesProductoView(LoginRequiredMixin, DetailView):
         return super(DetallesProductoView, self).dispatch(request, *args, **kwargs)
 
 class EditarProductoView(LoginRequiredMixin, UpdateView):
-    model = Producto
+    model = Product
     form_class = EditProductoForm
     template_name = 'Dashboard/producto/update_producto.html'
 
@@ -176,7 +176,7 @@ class EditarProductoView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 class EliminarProductoView(LoginRequiredMixin, DeleteView):
-    model = Producto
+    model = Product
     template_name = "Dashboard/producto/delete_producto.html"
     success_url = reverse_lazy('productos_dash')
 
@@ -185,7 +185,7 @@ class EliminarProductoView(LoginRequiredMixin, DeleteView):
         return super(EliminarProductoView, self).dispatch(request, *args, **kwargs)
 
 class AdicionarProductoView(LoginRequiredMixin, CreateView):
-    model = Producto
+    model = Product
     # form_class = AddProductoView
     template_name = 'Dashboard/producto/add_producto.html'
     fields=('nombre','precio','categorias','tienda',
@@ -198,7 +198,7 @@ class AdicionarProductoView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["tiendas"] = Tienda.objects.all()
+        context["tiendas"] = Store.objects.all()
         context["categorias"] = CategoriaProducto.objects.all()
         return context
 
@@ -214,10 +214,10 @@ class ClientesView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         clientes = Cliente.objects.all()
         
-        if Tienda.objects.filter(encargado = self.request.user):
-            tienda = Tienda.objects.get(encargado = self.request.user)
-            if Producto.objects.filter(tienda = tienda):
-                productos = Producto.objects.filter(tienda = tienda)
+        if Store.objects.filter(encargado = self.request.user):
+            tienda = Store.objects.get(encargado = self.request.user)
+            if Product.objects.filter(tienda = tienda):
+                productos = Product.objects.filter(tienda = tienda)
                 for producto in productos:
                     for cliente in clientes:
                         for produc in cliente.productos.all():

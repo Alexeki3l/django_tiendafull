@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from carro.models import Carrito, Contador_Prod
 from .carro import Carro
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
-from tienda.models import Producto
+from tienda.models import Product
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import redirect
@@ -13,7 +13,7 @@ import socket
 
 def Agregar_Producto(request, producto_id):
     print(request.path)
-    producto = Producto.objects.get(id = producto_id)
+    producto = Product.objects.get(id = producto_id)
     if request.user.is_authenticated:
         if not Carrito.objects.filter(usuario = request.user):
             carrito = Carrito(
@@ -117,7 +117,7 @@ def Agregar_Producto(request, producto_id):
             
 def Restar_Producto(request,producto_id):
     
-    producto = Producto.objects.get(id = producto_id)
+    producto = Product.objects.get(id = producto_id)
     if request.user.is_authenticated:
         carrito = Carrito.objects.get(usuario = request.user)
         for product in carrito.productos.all():
@@ -158,7 +158,7 @@ def Restar_Producto(request,producto_id):
 
 
 def Eliminar_Producto(request, producto_id):
-    producto = Producto.objects.get(id = producto_id)
+    producto = Product.objects.get(id = producto_id)
     contador = Contador_Prod.objects.get(producto = producto)
     contador.delete()
     print('SE ELIMINO EL PRODUCTO')         

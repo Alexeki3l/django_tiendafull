@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django import forms
-from .models import Cliente, Tienda, Producto, CategoriaProducto, CategoriaTienda, ComentarioP, RespuestaP
+from .models import Cliente, Store, Product, CategoriaProducto, CategoriaTienda, ComentarioP, RespuestaP
 from django.utils.html import format_html
 
 # Register your models here.
@@ -72,8 +72,8 @@ class ClienteAdmin(admin.ModelAdmin):
 admin.site.register(CategoriaTienda,CategoriaTiendaAdmin)
 admin.site.register(CategoriaProducto,CategoriaProductoAdmin)
 
-admin.site.register(Tienda,TiendaAdmin)
-admin.site.register(Producto,ProductoAdmin)
+admin.site.register(Store,TiendaAdmin)
+admin.site.register(Product,ProductoAdmin)
 
 admin.site.register(ComentarioP,ComentarioProductoAdmin)
 admin.site.register(RespuestaP,RespuestasProductoAdmin)

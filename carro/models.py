@@ -3,13 +3,13 @@ from functools import total_ordering
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
-from tienda.models import Producto
+from tienda.models import Product
 from django.db.models.signals import post_save
 # Create your models here.
 
 
 class Contador_Prod(models.Model):
-    producto  = models.OneToOneField(Producto, on_delete=models.CASCADE, primary_key=True)
+    producto  = models.OneToOneField(Product, on_delete=models.CASCADE, primary_key=True)
     cantidad  = models.IntegerField(default= 1)
     total     = models.FloatField(default= 0)
     class Meta:
@@ -76,4 +76,4 @@ def create_carrito(sender, instance, created, **kwargs):
     if created:
         Contador_Prod.objects.create(producto = instance)
 
-post_save.connect(create_carrito, sender = Producto)
+post_save.connect(create_carrito, sender = Product)

@@ -3,7 +3,7 @@
 import builtins
 from django.db import migrations, models
 import django.db.models.deletion
-from tienda.models import Producto
+from tienda.models import Product
 
 
 class Migration(migrations.Migration):

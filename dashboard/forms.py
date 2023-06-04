@@ -1,7 +1,7 @@
 
 from matplotlib import widgets
 from blog.models import Post
-from tienda.models import Producto, Tienda
+from tienda.models import Product, Store
 from . import forms
 from django import forms
 
@@ -21,7 +21,7 @@ class EditPostForm(forms.ModelForm):
 
 class EditProductoForm(forms.ModelForm):
     class Meta:
-        model  = Producto  
+        model  = Product
         fields = ('nombre','precio','image','tienda','image','image1','image2','descripcion','cantidad',)
         widgets={
             'nombre':forms.TextInput(attrs={'class':'form-control'}),
@@ -35,7 +35,7 @@ class EditProductoForm(forms.ModelForm):
         
 class AddProductoView(forms.ModelForm):
     class Meta:
-        model  = Producto  
+        model  = Product
         # fields = ('nombre','precio','image','image','image1','image2','descripcion','tienda_id','instock',)
         fields = ('__all__')
         widgets={
@@ -51,8 +51,8 @@ class AddProductoView(forms.ModelForm):
 
 class AddTiendaView(forms.ModelForm):
     class Meta:
-        model  = Tienda  
-        fields = ('nombre','descripcion','direccion','imagen','categorias','open',)
+        model  = Store  
+        fields = ('nombre','descripcion','direccion','imagen','categorias','is_open',)
         # fields = ('__all__')
         widgets={
             'nombre':forms.TextInput(attrs={'class':'form-control'}),
@@ -67,12 +67,12 @@ class AddTiendaView(forms.ModelForm):
 
 class EditTiendaForm(forms.ModelForm):
     class Meta:
-        model  = Tienda  
-        fields = ('nombre','direccion','imagen','descripcion','open',)
+        model  = Store  
+        fields = ('nombre','direccion','imagen','descripcion','is_open',)
         widgets={
             'nombre':forms.TextInput(attrs={'class':'form-control'}),
             'direccion':forms.TextInput(attrs={'class':'form-control'}),
             # 'imagen':forms.ImageField(attrs={'class':'form-control'}),
             'descripcion':forms.Textarea(attrs={'class':'form-control'}),
-            # 'open':forms.BooleanField(attrs={'class':'form-control'}),
+            # 'is_open':forms.BooleanField(attrs={'class':'form-control'}),
         }

@@ -6,7 +6,7 @@ from matplotlib.style import context
 
 from carro.models import Carrito
 from .models import ComentarioP, RespuestaP
-from .models import Producto, CategoriaProducto
+from .models import Product, CategoriaProducto
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView, ListView
 from django.http import HttpRequest, HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
@@ -17,7 +17,7 @@ import socket
 # Create your views here.
 
 class Tienda(ListView):
-    model = Producto
+    model = Product
     template_name = 'tienda/tienda_landing.html'
     context_object_name = 'productos'
 
@@ -50,7 +50,7 @@ class Tienda(ListView):
                 return context
 
 class DetalleProducto(DetailView):
-    model = Producto
+    model = Product
     template_name = 'tienda/detalle_producto.html'
     context_object_name = 'producto'
 
@@ -65,7 +65,7 @@ class DetalleProducto(DetailView):
         total = cantidad_comentarios 
         ''' + cantidad_respuestas'''
         context["total"] = total
-        context['productos'] = Producto.objects.all()
+        context['productos'] = Product.objects.all()
         
         return context
 
@@ -174,45 +174,45 @@ def comment_delete(request, comentario_id):
 def reply_delete(request, respuesta_id):
     respuesta = get_object_or_404(RespuestaP, id=respuesta_id)
     comentario = ComentarioP.objects.get(id = respuesta.comentariosp_id)
-    producto = Producto.objects.get(id = comentario.producto_id)
+    producto = Product.objects.get(id = comentario.producto_id)
     respuesta.delete()
     return redirect("detalle_producto", producto.id)
 
 def LikeProd(request, producto_id):
-    producto = get_object_or_404(Producto, id = producto_id)
+    producto = get_object_or_404(Product, id = producto_id)
     producto.likes.add(request.user)
     # return redirect("blog_full", post.id)    
     return HttpResponseRedirect(reverse('detalle_producto', args=[str(producto_id)]))
     
 def DislikeProd(request, producto_id):
-    producto = get_object_or_404(Producto, id = producto_id)
+    producto = get_object_or_404(Product, id = producto_id)
     producto.likes.remove(request.user)
     return HttpResponseRedirect(reverse('detalle_producto', args=[str(producto_id)]))
 
 def LikeComment(request, comentario_id):
     comentario = get_object_or_404(ComentarioP, id = comentario_id)
     comentario.likes.add(request.user)
-    producto = Producto.objects.get(id = comentario.post_id)
+    producto = Product.objects.get(id = comentario.post_id)
     return redirect("detalle_producto", producto.id)
 
 def DislikeComment(request, comentario_id):
     comentario = get_object_or_404(ComentarioP, id = comentario_id)
     comentario.likes.remove(request.user)
-    producto = Producto.objects.get(id = comentario.producto_id)
+    producto = Product.objects.get(id = comentario.producto_id)
     return redirect("detalle_producto", producto.id)
 
 def LikeReply(request, respuesta_id):
     respuesta = get_object_or_404(RespuestaP, id = respuesta_id)
     respuesta.likes.add(request.user)
     comentario = ComentarioP.objects.get(id = respuesta.comentariosp_id)
-    producto = Producto.objects.get(id = comentario.producto_id)
+    producto = Product.objects.get(id = comentario.producto_id)
     return redirect("detalle_producto", producto.id)
 
 def DislikeReply(request, respuesta_id):
     respuesta = get_object_or_404(RespuestaP, id = respuesta_id)
     respuesta.likes.add(request.user)
     comentario = ComentarioP.objects.get(id = respuesta.comentariosp_id)
-    producto = Producto.objects.get(id = comentario.producto_id)
+    producto = Product.objects.get(id = comentario.producto_id)
     return redirect(reverse("detalle_producto",args=[str(producto.id)]))
 
 

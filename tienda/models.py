@@ -30,14 +30,14 @@ class CategoriaProducto(models.Model):
     def __str__(self):
         return self.nombre
 
-class Tienda(models.Model):
+class Store(models.Model):
     nombre      = models.CharField(max_length=150)
     descripcion = models.TextField()
     direccion   = models.CharField(max_length=300)
     encargado   = models.ForeignKey(User, on_delete=models.CASCADE)
     imagen      = models.ImageField(upload_to='tienda')
     categorias  = models.ManyToManyField(CategoriaTienda, null=True, blank=True, related_name='categorias_tienda')
-    open        = models.BooleanField(default=True)
+    is_open        = models.BooleanField(default=True)
     likes       = models.ManyToManyField(User, null=True, blank=True, related_name='tienda_likes' )
     created     = models.DateTimeField(auto_now_add=True)
     updated     = models.DateTimeField(auto_now_add=True)
@@ -60,8 +60,8 @@ class Tienda(models.Model):
     def image_url(self):
         if self.imagen and hasattr(self.imagen, 'url'):
             return self.imagen.url
-   
-class Producto(models.Model):
+
+class Product(models.Model):
     nombre          = models.CharField(max_length=50)
     precio          = models.FloatField()
     precio_old      = models.FloatField(blank=True, null=True)
@@ -69,7 +69,7 @@ class Producto(models.Model):
     image           = models.ImageField(upload_to='producto')
     image1          = models.ImageField(upload_to='producto')
     image2          = models.ImageField(upload_to='producto')
-    tienda          = models.ForeignKey(Tienda, null=True, blank=True, on_delete=models.CASCADE)
+    tienda          = models.ForeignKey(Store, null=True, blank=True, on_delete=models.CASCADE)
     cantidad        = models.IntegerField()
     vender          = models.BooleanField(default= True)
     categorias      = models.ManyToManyField(CategoriaProducto, related_name='categorias_p')
@@ -97,7 +97,7 @@ class Producto(models.Model):
 
 class Cliente(models.Model):
     person    = models.OneToOneField(User, on_delete=models.CASCADE)
-    productos = models.ManyToManyField(Producto, related_name='productos_clientes')
+    productos = models.ManyToManyField(Product, related_name='productos_clientes')
     created   = models.DateField(auto_now_add=True)
     class Meta:
         verbose_name    = "cliente"
@@ -114,7 +114,7 @@ class Cliente(models.Model):
 class ComentarioP(models.Model):
     autor            = models.ForeignKey(User, on_delete=models.CASCADE)
     contenido        = models.TextField()
-    producto         = models.ForeignKey(Producto , on_delete=models.CASCADE, null=True, blank=True,verbose_name="producto", related_name='comentariosp')
+    producto         = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True,verbose_name="producto", related_name='comentariosp')
     likes            = models.ManyToManyField(User, null=True, blank=True, related_name="producto_comentario")
     approved_comment = models.BooleanField(default=True)
     created          = models.DateTimeField(auto_now_add=True)

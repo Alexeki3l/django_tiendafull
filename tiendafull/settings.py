@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -22,10 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-e47=sfz-kb1#7hbdq(eo^8uo&sk5az^_uk3p6(3rxak8fly9eb'
+SECRET_KEY = config('SECRET_KEY_DJANGO'),
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG'),
 # DEBUG = False
 
 ALLOWED_HOSTS = []
@@ -103,11 +104,11 @@ WSGI_APPLICATION = 'tiendafull.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'complejo_tienda',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': '127.0.0.1',
-        'PORT': 5432,
+        'NAME': config('BD_NAME'),
+        'USER': config('BD_USER'),
+        'PASSWORD': config('BD_PASSWORD'),
+        'HOST': config('BD_HOST'),
+        'PORT': config('BD_PORT'),
     }
 }
 

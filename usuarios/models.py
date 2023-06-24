@@ -50,7 +50,12 @@ class Profile(models.Model):
             if photo.file and hasattr(photo.file, 'url'):
                 return photo.file.url
         except IndexError:
-            return '/media/perfil/sin-foto.png'
+            self.multimedia_set.create(
+                type='1',
+                profiles=self.pk
+            )
+            photo = self.multimedia_set.all()[0]
+            return photo.file.url 
         
 
 def create_profile(sender, instance, created, **kwargs):

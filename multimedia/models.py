@@ -28,7 +28,7 @@ class Multimedia(models.Model):
             return self.imagen.url
 
     def save(self, *args, **kwargs):
-        # no_photo_profile = '/media/profile/sin-foto.png'
+        no_photo_profile = '/media/profile/sin-foto.png'
         # no_photo_store = '/media/store/sin-photo.jpg'
         # no_photo_product = '/media/store/sin-photo.jpg'
         if not self.created:
@@ -37,9 +37,11 @@ class Multimedia(models.Model):
                 self.stores = None
                 self.products = None
                 self.file.field.upload_to='profile'
-                # self.file = no_photo_profile
+                if self.file.url:
+                    self.file = no_photo_profile
                 self.name = self.file.url.split("/")[-1].split(".")[-2]
-                return super().save(self,*args,**kwargs)
+                # return super().save(self, *args,**kwargs)
+                return super(Multimedia,self).save(force_insert=True)
 
             elif self.type == "2":
                 self.profiles = None

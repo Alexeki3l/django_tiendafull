@@ -24,21 +24,22 @@
             <div class="row">
                 <div class="col-lg-5">
                     <!-- Product image -->
-                    <a href="javascript: void(0);" class="text-center d-block mb-4">
-                        <img src="{{producto.image.url}}" class="img-fluid" style="max-width: 280px;" alt="Product-img">
-                    </a>
-
-                    <div class="d-lg-flex d-none justify-content-center">
-                        <a href="javascript: void(0);">
-                            <img src="{{producto.image.url}}" class="img-fluid img-thumbnail p-2" style="max-width: 75px;" alt="Product-img">
+                    {% for media in producto.multimedia_set.all|slice:":1" %}
+                        <a href="javascript: void(0);" class="text-center d-block mb-4">
+                            <img src="{{media.file.url}}" class="img-fluid" style="max-width: 280px;" alt="Product-img">
                         </a>
-                        <a href="javascript: void(0);" class="ms-2">
-                            <img src="{{producto.image1.url}}" class="img-fluid img-thumbnail p-2" style="max-width: 75px;" alt="Product-img">
-                        </a>
-                        <a href="javascript: void(0);" class="ms-2">
-                            <img src="{{producto.image2.url}}" class="img-fluid img-thumbnail p-2" style="max-width: 75px;" alt="Product-img">
-                        </a>
-                    </div>
+                    {% endfor %}
+                    {% if producto.multimedia_set.all.count > 1 %}
+                        <div class="d-lg-flex d-none justify-content-center">
+                            {% for media in producto.multimedia_set.all|slice:"1:4" %}
+                            
+                                <a href="javascript: void(0);" class="ms-2">
+                                    <img src="{{media.file.url}}" class="img-fluid img-thumbnail p-2" style="max-width: 75px;" alt="Product-img">
+                                </a>
+                            {% endfor %}
+                        </div>
+                    
+                    {% endif %}
                 </div> <!-- end col -->
                 <div class="col-lg-7">
                     <form class="ps-lg-4">

@@ -53,7 +53,7 @@
                             <!-- project card -->
                             <div class="card d-block">
                                 <!-- project-thumbnail -->
-                                <img class="card-img-top" src="{{valor.file}}" alt="project image cap">
+                                <img class="card-img-top" src="{{valor.file.url}}" alt="project image cap">
                                 <div class="card-img-overlay">
                                     {% for categoria in valor.stores.categorias.all %}
                                         <div class="badge bg-success text-white p-1">{{categoria.nombre}}</div>

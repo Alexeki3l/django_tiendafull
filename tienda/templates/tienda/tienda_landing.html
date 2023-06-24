@@ -73,7 +73,10 @@
                                 <!-- project card -->
                                 <div class="card d-block rounded-3">
                                     <!-- project-thumbnail -->
-                                    <img class="card-img-top rounded-3" src="{{producto.image.url}}"  style="height: 250px;" alt="project image cap">
+                                    {% for media in producto.multimedia_set.all|slice:":1" %}
+                                        <img class="card-img-top rounded-3" src="{{media.file.url}}"  style="height: 250px;" alt="project image cap">
+                                    {% endfor %}
+                                    
 
                                     <div class="card-img-overlay">
                                         <div class="badge bg-success text-light p-1">new</div>

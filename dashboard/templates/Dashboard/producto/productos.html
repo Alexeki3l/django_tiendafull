@@ -72,7 +72,9 @@
                                                     </div>
                                                 </td>
                                                 <td class="table-user" >
-                                                    <img src="{{producto.image.url}}" alt="table-user" class="me-2 rounded-circle">
+                                                    {% for media in producto.multimedia_set.all|slice:":1" %}
+                                                    <img src="{{media.file.url}}" alt="table-user" class="me-2 rounded-circle">
+                                                    {% endfor %}
                                                     <a href="javascript:void(0);" class="text-body fw-semibold">{{producto.nombre}}</a>
                                                 </td>
                                                 <td style="text-align: center;">

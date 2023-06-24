@@ -150,6 +150,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# STATIC_URL = 'https://127.0.0.1:9000'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -167,4 +169,26 @@ LOGOUT_REDIRECT_URL="/"
 # ----
 # # Personalizar los errores
 # TEMPLATE_DIR = os.path.join(BASE_DIR, 'plantillas')
+
+# S3 Configuration
+
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+MINIO_STORAGE_MEDIA_BUCKET_NAME = config("MINIO_STORAGE_BUCKET_NAME")
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+# AWS_ACCESS_KEY_ID = os.environ.get("MINIO_ACCESS_KEY_ID", "user")
+# AWS_SECRET_ACCESS_KEY = os.environ.get("MINIO_SECRET_ACCESS_KEY", "password")
+# AWS_STORAGE_BUCKET_NAME = os.environ.get("MINIO_STORAGE_BUCKET_NAME", "static-2")
+AWS_ACCESS_KEY_ID = config("MINIO_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = config("MINIO_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = config("MINIO_STORAGE_BUCKET_NAME")
+AWS_S3_USE_SSL = False
+
+if DEBUG:
+    # cuando se este en desarrollo
+    AWS_S3_ENDPOINT_URL = config("MINIO_API")
+    
+else:
+    # cuando se este en producccion
+    pass
 
